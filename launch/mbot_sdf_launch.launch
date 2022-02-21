@@ -1,0 +1,37 @@
+<launch>
+    <!-- gazebo config -->
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="false"/>
+    <arg name="paused" default="false"/>
+    <arg name="respawn_gazebo" default="false"/>
+
+    <!-- vehicle pose -->
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+    <arg name="R" default="0"/>
+    <arg name="P" default="0"/>
+    <arg name="Y" default="3.1415"/>
+
+    
+    <!--  vehicle world-->
+    <arg name="world" default="$(find mbot_gazebo)/worlds/maze.world"/>
+
+    <!-- vehicle model -->
+    <arg name="vehicle" default="mcar_sdf"/>
+    <arg name="sdf" default="$(find mbot_gazebo)/models/$(arg vehicle)/model.sdf"/>
+
+
+    <!--  gazebo world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="gui" default="$(arg gui)"/>
+        <arg name="world_name" default="$(arg world)"/>
+        <arg name="verbose" default="$(arg verbose)"/>
+        <arg name="paused" default="$(arg paused)"/>
+        <arg name="respawn_gazebo" default="$(arg respawn_gazebo)"/>
+    </include>
+
+    <!-- gazebo model -->
+    <node pkg="gazebo_ros" type="spawn_model" name="mbot" output="screen" args="-sdf  -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
+</launch>
